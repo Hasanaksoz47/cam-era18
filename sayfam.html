@@ -3,55 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Otomatik Resim Çekme</title>
+  <title>Mobil Kamera Açma</title>
 </head>
 <body>
-  <h1>Kameradan Resim Çekme</h1>
-  <video id="video" width="100%" height="auto" autoplay></video>
-  <canvas id="canvas" style="display: none;"></canvas>
-  <p id="status" style="color: green;">Kamera açılıyor...</p>
-  <img id="snapshot" alt="Çekilen Resim" style="display: block; margin-top: 20px; width: 100%; height: auto;">
+  <h1>Mobil Kamerayı Aç</h1>
+  <video id="video" autoplay playsinline width="100%" height="auto"></video>
+  <p id="error-message" style="color: red; display: none;">Kamera açılamadı. Lütfen izin verdiğinizden emin olun.</p>
 
   <script>
     async function startCamera() {
       try {
-        // Kamerayı başlat
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        const video = document.getElementById('video');
-        video.srcObject = stream;
+        // Kamera akışını başlat
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: 'environment' // Arka kamera (mobil cihazlar için)
+          }
+        });
 
-        // Kamera açıldıktan sonra resim çek
-        video.onloadedmetadata = () => {
-          setTimeout(takePicture, 1000); // 1 saniye sonra resim çek
-        };
+        const video = document.getElementById('video');
+        video.srcObject = stream; // Video kaynağı olarak akışı belirle
       } catch (error) {
-        document.getElementById('status').innerText = 'Kamera açılamadı: ' + error.message;
+        // Hata durumunda mesaj göster
+        const errorMessage = document.getElementById('error-message');
+        errorMessage.style.display = 'block';
+        errorMessage.textContent = `Kamera hatası: ${error.message}`;
         console.error('Kamera hatası:', error);
       }
     }
 
-    function takePicture() {
-      const video = document.getElementById('video');
-      const canvas = document.getElementById('canvas');
-      const snapshot = document.getElementById('snapshot');
-      const context = canvas.getContext('2d');
-
-      // Canvas boyutlarını video boyutuna eşitle
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-
-      // Canvas üzerine video karesini çiz
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-      // Canvas içeriğini bir veri URL'si olarak al ve <img> öğesine aktar
-      const imageDataURL = canvas.toDataURL('image/png');
-      snapshot.src = imageDataURL;
-
-      // Durum mesajını güncelle
-      document.getElementById('status').innerText = 'Resim çekildi!';
-    }
-
-    // Sayfa yüklendiğinde kamerayı başlat
+    // Kamera akışını başlat
     window.onload = startCamera;
   </script>
 </body>
